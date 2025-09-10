@@ -1,41 +1,45 @@
 import React from "react";
 import { ShoppingCart, Heart, LogIn, Search } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { setSearchTerm } from "../redux/ProductsSlice";
 
-export const Header = ({ wishlistCount, cartCount }) => {
+export const Header = ({
+  wishlistCount,
+  cartCount,
+  onCartClick,
+  onWishlistClick,
+}) => {
+  const dispatch = useDispatch();
+
   return (
-    <header className="w-full bg-[#202938] text-white">
-      <div className="max-w-8xl mx-auto flex items-center justify-between px-6 py-6">
-        <div className="flex items-center gap-2">
-          <span className="text-xl">🛍️</span>
-          <h1 className="text-2xl font-semibold"> F7 Store</h1>
+    <header className="header">
+      <div className="header-container">
+        <div className="logo">
+          <span>🛍️</span>
+          <h1>F7 Store</h1>
         </div>
-
-        <div className=" ml-auto px-6">
-          <div className="flex items-center bg-white rounded-md overflow-hidden h-11 w-64">
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-full px-2 py-2 text-sm text-black focus:outline-none"
-            />
-            <button className="px-2 text-gray-600">
-              <Search size={16} />
-            </button>
-          </div>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+          />
+          <button>
+            <Search size={16} />
+          </button>
         </div>
-
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
+        <div className="icons">
+          <div className="icon-item" onClick={onWishlistClick}>
             <Heart size={20} />
             <span>{wishlistCount}</span>
           </div>
-
-          <div className="flex items-center gap-1">
+          <div className="icon-item" onClick={onCartClick}>
             <ShoppingCart size={20} />
             <span>{cartCount}</span>
           </div>
-
-          <button className="border border-white px-4 py-1 rounded-md hover:bg-white hover:text-black transition">
-            <LogIn size={16} className="inline mr-1" /> Log In
+          <button className="login-btn">
+            <LogIn size={16} />
+            Log In
           </button>
         </div>
       </div>

@@ -1,26 +1,37 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/CartSlice";
+import { addToWishlist } from "../redux/WishlistSlice";
+import { selectProduct } from "../redux/ProductsSlice";
 
 export const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
+
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 flex flex-col">
-      <img
-        src={product.image}
-        alt={product.title}
-        className="w-full h-40 object-cover rounded-md mb-3"
-      />
-
-      <h2 className="font-semibold text-base text-gray-800">{product.title}</h2>
-
-      <p className="text-sm text-gray-600 flex-grow">{product.description}</p>
-
-      <p className="font-semibold mt-2">Price : ₹ {product.price}</p>
-
-      <div className="flex gap-2 mt-3">
-        <button className="bg-blue-600 text-white px-3 py-1 text-sm rounded-md hover:bg-blue-700">
-          + Add to Cart
+    <div
+      className="product-card"
+      onClick={() => dispatch(selectProduct(product))}
+    >
+      <img src={product.image} alt={product.title} />
+      <h2>{product.title}</h2>
+      <p>{product.description}</p>
+      <p>₹ {product.price}</p>
+      <div className="product-actions">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(addToCart(product));
+          }}
+        >
+          + Cart
         </button>
-        <button className="bg-blue-600 text-white px-3 py-1 text-sm rounded-md hover:bg-blue-700">
-          + Add to Wishlist
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(addToWishlist(product));
+          }}
+        >
+          ♥ Wishlist
         </button>
       </div>
     </div>
