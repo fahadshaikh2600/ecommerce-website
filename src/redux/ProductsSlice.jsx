@@ -17,16 +17,17 @@ const ProductsSlice = createSlice({
     loading: false,
     category: "All",
     searchTerm: "",
-    selectedProduct: null,
   },
   reducers: {
     filterByCategory: (state, action) => {
       state.category = action.payload;
       state.filtered = state.items
-        .filter((p) =>
-          action.payload === "All"
-            ? true
-            : p.category.toLowerCase() === action.payload.toLowerCase()
+        .filter(
+          (p) =>
+            action.payload === "All"
+              ? true
+              : p.category.toLowerCase() ===
+                action.payload.toLowerCase().replace("jewelery", "jewelry") // Handle API spelling
         )
         .filter((p) =>
           p.title.toLowerCase().includes(state.searchTerm.toLowerCase())
@@ -41,12 +42,6 @@ const ProductsSlice = createSlice({
             : p.category.toLowerCase() === state.category.toLowerCase()) &&
           p.title.toLowerCase().includes(action.payload.toLowerCase())
       );
-    },
-    selectProduct: (state, action) => {
-      state.selectedProduct = action.payload;
-    },
-    clearSelectedProduct: (state) => {
-      state.selectedProduct = null;
     },
   },
   extraReducers: (builder) => {
@@ -65,11 +60,6 @@ const ProductsSlice = createSlice({
   },
 });
 
-export const {
-  filterByCategory,
-  setSearchTerm,
-  selectProduct,
-  clearSelectedProduct,
-} = ProductsSlice.actions;
+export const { filterByCategory, setSearchTerm } = ProductsSlice.actions;
 
 export default ProductsSlice.reducer;

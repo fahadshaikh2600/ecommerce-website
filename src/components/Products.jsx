@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, filterByCategory } from "../redux/ProductsSlice";
 import { ProductCard } from "./ProductCard";
-import { ProductDetail } from "./ProductDetails";
-
+import "./Products.css";
 export const Products = () => {
   const dispatch = useDispatch();
-  const { filtered, loading, selectedProduct } = useSelector((s) => s.products);
+  const { filtered, loading } = useSelector((s) => s.products);
+  const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -24,9 +24,16 @@ export const Products = () => {
             "men's clothing",
             "women's clothing",
             "electronics",
-            "jewelery",
+            "jewelry",
           ].map((cat) => (
-            <li key={cat} onClick={() => dispatch(filterByCategory(cat))}>
+            <li
+              key={cat}
+              onClick={() => {
+                dispatch(filterByCategory(cat));
+                setActiveCategory(cat);
+              }}
+              className={activeCategory === cat ? "active" : ""}
+            >
               {cat}
             </li>
           ))}
@@ -37,7 +44,6 @@ export const Products = () => {
           <ProductCard key={p.id} product={p} />
         ))}
       </main>
-      {selectedProduct && <ProductDetail />}
     </div>
   );
 };

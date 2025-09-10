@@ -1,34 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { Header } from "./components/Header";
 import { Products } from "./components/Products";
-import { CartSidebar } from "./components/CartSidebar"; // Fixed here
-import { WishlistSidebar } from "./components/WishlistSidebar";
 import { useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+import ProductDetail from "./components/ProductDetails";
+import CartPage from "./components/CartPage";
+import WishlistPage from "./components/WishlistPage";
+import Footer from "./components/Footer";
 
 function App() {
   const cartCount = useSelector((s) => s.cart.length);
   const wishlistCount = useSelector((s) => s.wishlist.length);
 
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header
-        wishlistCount={wishlistCount}
-        cartCount={cartCount}
-        onCartClick={() => setIsCartOpen(true)}
-        onWishlistClick={() => setIsWishlistOpen(true)}
-      />
-
-      <Products />
-
-      {/* Sidebars */}
-      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-      <WishlistSidebar
-        isOpen={isWishlistOpen}
-        onClose={() => setIsWishlistOpen(false)}
-      />
+    <div className="app-container">
+      <Header wishlistCount={wishlistCount} cartCount={cartCount} />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Products />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
+        </Routes>
+      </main>
+      <Footer />
     </div>
   );
 }
