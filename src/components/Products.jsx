@@ -24,7 +24,7 @@ export const Products = () => {
             "men's clothing",
             "women's clothing",
             "electronics",
-            "jewelry",
+            "jewelery",
           ].map((cat) => (
             <li
               key={cat}
@@ -40,9 +40,11 @@ export const Products = () => {
         </ul>
       </aside>
       <main className="product-list">
-        {filtered.map((p) => (
-          <ProductCard key={p.id} product={p} />
-        ))}
+        {filtered.length > 0 ? (
+          filtered.map((p) => <ProductCard key={p.id} product={p} />)
+        ) : (
+          <p>No products found for this category.</p>
+        )}
       </main>
     </div>
   );

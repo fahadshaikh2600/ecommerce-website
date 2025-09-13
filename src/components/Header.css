@@ -65,7 +65,7 @@
   color: #888;
 }
 
-/* Icons section */
+
 .icons {
   display: flex;
   gap: 20px;
@@ -82,7 +82,7 @@
   color: #ddd;
 }
 
-.login-btn {
+.login-btn-header {
   border: 1px solid #fff;
   padding: 4px 10px;
   border-radius: 4px;
@@ -95,13 +95,21 @@
   align-items: center;
 }
 
-.login-btn:hover {
+.login-btn-header:hover {
   background-color: #fff;
   color: #202938;
 }
 
-.login-btn svg {
+.login-btn-header svg {
   width: 14px;
   height: 14px;
   margin-right: 4px;
+}
+
+.icon-item {
+  position: relative;
+  margin-left: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }

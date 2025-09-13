@@ -1,14 +1,27 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ProductsReducer from "./ProductsSlice";
 import CartReducer from "./CartSlice";
 import WishlistReducer from "./WishlistSlice";
+import productsReducer from "./ProductsSlice";
+import toastReducer from "./ToastSlice";
 
-const Store = configureStore({
+import { loadState, saveState } from "./localStorage";
+
+const persistedState = loadState();
+const store = configureStore({
   reducer: {
-    products: ProductsReducer,
+    products: productsReducer,
     cart: CartReducer,
     wishlist: WishlistReducer,
+    toast: toastReducer,
   },
+  preloadedState: persistedState,
 });
 
-export default Store;
+store.subscribe(() => {
+  saveState({
+    cart: store.getState().cart,
+    wishlist: store.getState().wishlist,
+  });
+});
+
+export default store;

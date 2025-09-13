@@ -9,7 +9,7 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-const ProductsSlice = createSlice({
+const productsSlice = createSlice({
   name: "products",
   initialState: {
     items: [],
@@ -22,16 +22,20 @@ const ProductsSlice = createSlice({
     filterByCategory: (state, action) => {
       state.category = action.payload;
       state.filtered = state.items
-        .filter(
-          (p) =>
-            action.payload === "All"
-              ? true
-              : p.category.toLowerCase() ===
-                action.payload.toLowerCase().replace("jewelery", "jewelry") // Handle API spelling
+        .filter((p) =>
+          action.payload === "All"
+            ? true
+            : p.category.toLowerCase() === action.payload.toLowerCase()
         )
         .filter((p) =>
           p.title.toLowerCase().includes(state.searchTerm.toLowerCase())
         );
+      console.log(
+        "Filtered category:",
+        action.payload,
+        "Result:",
+        state.filtered
+      ); // Debug log
     },
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
@@ -60,6 +64,6 @@ const ProductsSlice = createSlice({
   },
 });
 
-export const { filterByCategory, setSearchTerm } = ProductsSlice.actions;
+export const { filterByCategory, setSearchTerm } = productsSlice.actions;
 
-export default ProductsSlice.reducer;
+export default productsSlice.reducer;
